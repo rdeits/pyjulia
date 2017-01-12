@@ -333,7 +333,7 @@ class Julia(object):
                 # Intercept precompilation
                 os.environ["PYCALL_PYTHON_EXE"] = sys.executable
                 PYCALL_JULIA_HOME = os.path.join(
-                    os.path.dirname(os.path.realpath(__file__)),"..","fake-julia").replace("\\","\\\\")
+                    os.path.dirname(os.path.realpath(__file__)),"fake-julia").replace("\\","\\\\")
                 os.environ["PYCALL_JULIA_HOME"] = PYCALL_JULIA_HOME
                 os.environ["PYCALL_LIBJULIA_PATH"] = os.path.dirname(libjulia_path)
                 self._call(u"eval(Base,:(JULIA_HOME=\""+PYCALL_JULIA_HOME+"\"))")
