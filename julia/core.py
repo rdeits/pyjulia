@@ -339,7 +339,8 @@ class Julia(object):
                 self._call(u"eval(Base,:(JULIA_HOME=\""+PYCALL_JULIA_HOME+"\"))")
                 # Add a private cache directory. PyCall needs a different
                 # configuration and so do any packages that depend on it.
-                self._call(u"unshift!(Base.LOAD_CACHE_PATH, abspath(Pkg.Dir._pkgroot()," +
+                self._call(u"empty!(Base.LOAD_CACHE_PATH)")
+                self._call(u"push!(Base.LOAD_CACHE_PATH, abspath(Pkg.Dir._pkgroot()," +
                     "\"lib\", \"pyjulia%s-v$(VERSION.major).$(VERSION.minor)\"))" % sys.version_info[0])
                 # If PyCall.ji does not exist, create an empty file to force
                 # recompilation

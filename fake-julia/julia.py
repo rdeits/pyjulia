@@ -52,23 +52,3 @@ args = (c_void_p * 1)()
 args[0] = _start
 libjulia.jl_apply_generic(args, 1)
 libjulia.jl_atexit_hook(0)
-
-# As an optimization, share precompiled packages with the main cache directory
-libjulia.jl_eval_string(b"""
-    outputji = Base.JLOptions().outputji
-    if outputji != C_NULL && !isdefined(Main, :PyCall)
-        outputfile = unsafe_string(outputji)
-        target = Base.LOAD_CACHE_PATH[2]
-        targetpath = joinpath(target, basename(outputfile))
-        if is_windows()
-            try
-                cp(outputfile, targetpath; remove_destination = true)
-            catch e
-                ccall(:jl_, Void, (Any,), e)
-            end
-        else
-            mv(outputfile, targetpath; remove_destination = true)
-            symlink(targetpath, outputfile)
-        end
-    end
-""")
